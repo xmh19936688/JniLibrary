@@ -1,4 +1,4 @@
-package com.xmh.runtimeloadsodemo;
+package com.xmh.staticloadsodemo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
