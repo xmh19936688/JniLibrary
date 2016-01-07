@@ -1,1 +1,1 @@
-include ':SimpleJniDemo', ':StaticLoadSODemo', ':RuntimeLoadSODemo', ':JniInGifMakerDemo', ':AndroidGifDrawableLibrary1.1.8'
+include ':SimpleJniDemo', ':StaticLoadSODemo', ':RuntimeLoadSODemo', ':JniInGifMakerDemo', ':AndroidGifDrawableLibrary1.1.8', ':OnlineLoadSODemo'
