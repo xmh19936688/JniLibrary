@@ -1,0 +1,3 @@
+set solib-search-path E:/XMH/WorkSpace/ASWorkSpace/LibraryProject/JniInGifMakerDemo/src/main//obj/local/arm64-v8a
+source E:/XMH/android-ndk-r10d/prebuilt/common/gdb/common.setup
+directory E:/XMH/android-ndk-r10d/platforms/android-21/arch-arm64/usr/include E:/XMH/android-ndk-r10d/sources/cxx-stl/system/include E:/XMH/WorkSpace/ASWorkSpace/LibraryProject/JniInGifMakerDemo/src/main//jni

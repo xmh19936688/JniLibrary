@@ -1,0 +1,78 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+
+    defaultConfig {
+        applicationId "com.xmh.gifmakerdemo"
+        minSdkVersion 8
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+
+        ndk {
+            moduleName "gifflen"
+            ldLibs "log", "z", "m"
+            abiFilters "arm64-v8a","armeabi", "armeabi-v7a","mips","mips64", "x86","x86_64"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            jni.srcDirs = []
+//            jniLibs.srcDir 'src/main/libs'
+        }
+    }
+
+    task buildNative(type: Exec, description: 'Compile JNI source via NDK') {
+        def ndkDir = android.ndkDirectory
+        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+            commandLine "$ndkDir/ndk-build.cmd",
+                    '-C', file('src/main/jni').absolutePath, // Change src/main/jni the relative path to your jni source
+                    '-j', Runtime.runtime.availableProcessors(),
+                    'all',
+                    'NDK_DEBUG=1'
+        }else{
+            commandLine "$ndkDir/ndk-build",
+                    '-C', file('src/main/jni').absolutePath, // Change src/main/jni the relative path to your jni source
+                    '-j', Runtime.runtime.availableProcessors(),
+                    'all',
+                    'NDK_DEBUG=1'
+        }
+    }
+
+    task cleanNative(type: Exec, description: 'Clean JNI object files') {
+        def ndkDir = android.ndkDirectory
+        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+            commandLine "$ndkDir/ndk-build.cmd",
+                    '-C', file('src/main/jni').absolutePath, // Change src/main/jni the relative path to your jni source
+                    'clean'
+        }else{
+            commandLine "$ndkDir/ndk-build",
+                    '-C', file('src/main/jni').absolutePath, // Change src/main/jni the relative path to your jni source
+                    'clean'
+        }
+    }
+
+    clean.dependsOn 'cleanNative'
+
+    tasks.withType(JavaCompile) {
+        compileTask -> compileTask.dependsOn buildNative
+    }
+
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile project(':AndroidGifDrawableLibrary1.1.8')
+}
