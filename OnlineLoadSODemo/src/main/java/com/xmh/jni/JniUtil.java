@@ -47,7 +47,7 @@ public class JniUtil {
     }
 
     /**本地方法私有化，防止未加载就调用*/
-    public native String getResult(String value);
+    private native String getResult(String value);
 
     /**封装后的本地方法*/
     public String getResult(Context context,String value){
